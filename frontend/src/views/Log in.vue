@@ -117,7 +117,7 @@ html, body {
 
 .submit-btn {
   width: 100%;
-  background-color: #047857;
+  background-color: #e39429;
   color: white;
   font-weight: 600;
   padding: 12px;
@@ -127,7 +127,7 @@ html, body {
 }
 
 .submit-btn:hover {
-  background-color: #065f46;
+  background-color: #a66905;
 }
 
 .signup-text {
@@ -135,7 +135,7 @@ html, body {
 }
 
 .signup-text a {
-  color: #047857;
+  color: #e39429;
   font-weight: 500;
   text-decoration: none;
 }
