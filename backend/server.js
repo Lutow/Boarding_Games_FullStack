@@ -59,7 +59,7 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-// Example: Fetch all games
+// Fetch all games
 app.get('/api/games', (req, res) => {
     const sql = 'SELECT * FROM Game LIMIT 30';
     db.query(sql, (err, results) => {
