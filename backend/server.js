@@ -12,9 +12,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 🔗 MySQL Connection
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'root',         // <-- Replace with your MySQL username
-    password: 'Timothee.5', // <-- Replace with your MySQL password
-    database: 'boarding_games'   // <-- Replace with your actual DB name
+    user: 'root',         // your MySQL username
+    password: 'XXX', // MySQL password
+    database: 'boarding_games'   // actual DB name
 });
 
 // Check DB connection
