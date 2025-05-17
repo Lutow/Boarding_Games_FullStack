@@ -55,12 +55,44 @@ export default {
     };
   },
   methods: {
-    handleLogin() {
-      console.log("Logging in with:", this.email, this.password);
+    async handleLogin() {
+      try {
+        const response = await fetch('http://localhost:3000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Store user data in localStorage for authentication persistence
+          localStorage.setItem('userEmail', data.user.email); // Store logged-in user's email
+          localStorage.setItem('userToken', data.token); // Replace with actual token logic
+          
+          alert('LOG IN SUCCESS')
+          // Redirect to homepage
+          this.$router.push('/');
+            setTimeout(() => {
+          window.location.reload(); // Force state update after login
+        }, 100);
+        } else {
+          alert(data.message || 'Login failed!');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('An error occurred while logging in.');
+      }
     },
   },
 };
 </script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');

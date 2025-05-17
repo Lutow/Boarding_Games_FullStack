@@ -5,6 +5,8 @@
       v-for="game in games"
       :key="game.id"
     >
+      <!-- Game Image -->
+      <img :src="game.game_image" alt="Game Poster" class="poster" />
       <!-- Game Info -->
       <div class="info">
         <h2 class="title">

@@ -1,7 +1,7 @@
 <template>
   <div class="hero-container">
     <video autoplay muted loop playsinline class="background-video">
-      <source src="@/assets/background.mp4" type="video/mp4" />
+      <source src="../assets/background.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
   <div class="overlay"></div>

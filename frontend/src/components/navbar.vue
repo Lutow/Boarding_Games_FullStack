@@ -6,18 +6,63 @@
       </div>
       <ul class="nav-links">
         <li><router-link to="/games">Games</router-link></li>
+        <li v-if="isAuthenticated">
+          <button @click="toggleProfile" class="profile-btn">View Profile</button>
+        </li>
+        <li v-if="isAuthenticated">
+          <button @click="handleLogout" class="logout-btn">Disconnect</button>
+        </li>
         <li><router-link to="/login">Log in / Register</router-link></li>
       </ul>
     </div>
   </nav>
+  <div v-if="showProfile">
+    <Profile />
+  </div>
+
 </template>
 
-<script>
+
+<script>// Displays for connected user a fast profile info component
+import Profile from '../components/Profile.vue';
+
 export default {
   name: 'Navbar',
+  components: {
+    Profile,
+  },
+  data() {
+    return {
+      showProfile: false,
+      isAuthenticated: false,
+    };
+  },
+  created() {
+    this.checkAuthentication();
+    window.addEventListener("storage", this.checkAuthentication);
+  },
+  methods: {
+    checkAuthentication() {
+      const token = localStorage.getItem('userToken');
+      this.isAuthenticated = !!token;
+    },
+    toggleProfile() {
+      this.showProfile = !this.showProfile;
+    },
+      handleLogout() {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userEmail'); // Clear stored user info
+    this.isAuthenticated = false;
+    this.$router.push('/'); // Redirect to main page after logout
+     setTimeout(() => {
+      window.location.reload(); // Force page reload to apply changes
+    }, 100)
+    },
+  },
 };
-
 </script>
+
+
 
 <style scoped>
 
@@ -82,6 +127,37 @@ export default {
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
+}
+
+.profile-btn {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.profile-btn:hover {
+  background-color: white;
+  color: #e39429;
+}
+
+.logout-btn {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: darkred;
 }
 
 </style>
