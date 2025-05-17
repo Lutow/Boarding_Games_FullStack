@@ -9,6 +9,7 @@
           <input
             type="username"
             id="username"
+            v-model="username"
             placeholder="Username"
             required
           />
@@ -72,6 +73,7 @@ export default {
   name: "Register",
   data() {
     return {
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -84,11 +86,12 @@ export default {
         return;
       }
 
-      // Send registration data to backend (adjust the route as needed)
-      fetch("http://localhost:3000/register", {
+      // Send registration data to backend
+      fetch("http://localhost:3000/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          username: this.username,
           email: this.email,
           password: this.password,
         }),
