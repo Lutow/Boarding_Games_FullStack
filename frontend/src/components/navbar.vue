@@ -6,13 +6,15 @@
       </div>
       <ul class="nav-links">
         <li><router-link to="/games">Games</router-link></li>
+        <li v-if="!isAuthenticated">
+          <router-link to="/login">Log in / Register</router-link>
+        </li>
         <li v-if="isAuthenticated">
           <button @click="toggleProfile" class="profile-btn">View Profile</button>
         </li>
         <li v-if="isAuthenticated">
           <button @click="handleLogout" class="logout-btn">Disconnect</button>
         </li>
-        <li><router-link to="/login">Log in / Register</router-link></li>
       </ul>
     </div>
   </nav>
@@ -23,8 +25,8 @@
 </template>
 
 
-<script>// Displays for connected user a fast profile info component
-import Profile from '../components/Profile.vue';
+<script>// Displays for connected user on toggle mode
+import Profile from '../components/profile.vue';
 
 export default {
   name: 'Navbar',
@@ -49,14 +51,14 @@ export default {
     toggleProfile() {
       this.showProfile = !this.showProfile;
     },
-      handleLogout() {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userEmail'); // Clear stored user info
-    this.isAuthenticated = false;
-    this.$router.push('/'); // Redirect to main page after logout
-     setTimeout(() => {
-      window.location.reload(); // Force page reload to apply changes
-    }, 100)
+    handleLogout() {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userEmail'); // Clear stored user info
+      this.isAuthenticated = false;
+      this.$router.push('/'); // Redirect to main page after logout
+      setTimeout(() => {
+        window.location.reload(); // Force page reload to apply changes
+      }, 100)
     },
   },
 };
@@ -117,6 +119,9 @@ export default {
 }
 
 .nav-links {
+  padding: 0;
+  margin: 0;
+  align-items: center;
   list-style: none;
   display: flex;
   gap: 5rem;
