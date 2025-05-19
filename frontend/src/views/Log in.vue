@@ -74,13 +74,13 @@ export default {
           // Store user data in localStorage for authentication persistence
           localStorage.setItem('userEmail', data.user.email); // Store logged-in user's email
           localStorage.setItem('userToken', data.token); // Replace with actual token logic
-          
+
           alert('LOG IN SUCCESS')
           // Redirect to homepage
           this.$router.push('/');
-            setTimeout(() => {
-          window.location.reload(); // Force state update after login
-        }, 100);
+          setTimeout(() => {
+            window.location.reload(); // Force state update after login
+          }, 100);
         } else {
           alert(data.message || 'Login failed!');
         }
