@@ -17,6 +17,13 @@
   animation: move 4s linear infinite, rotate 2s linear infinite;
 }
 
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
 @keyframes rotate {
   0%,
   20% {
@@ -74,5 +81,7 @@
 </style>
 
 <template>
-  <span class="loader"></span>
+  <div class="loader-wrapper">
+    <span class="loader"></span>
+  </div>
 </template>
