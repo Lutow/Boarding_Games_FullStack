@@ -4,11 +4,11 @@
       <source src="../assets/background.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-  <div class="overlay"></div>
-      <div class="content">
-        <h1>Welcome to BoardGameHub</h1>
-        <p>Explore hundreds of boarding games !</p>
-      </div>
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>Welcome to BoardGameHub</h1>
+      <p>Explore hundreds of boarding games !</p>
+    </div>
   </div>
 </template>
 
