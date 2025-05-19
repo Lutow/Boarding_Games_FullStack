@@ -7,7 +7,7 @@
       v-for="game in filteredGames"
       :key="game.id"
     >
-      <img :src="game.game_image" alt="Game Poster" class="poster" />
+      <img :src="game.game_image" alt="Game Poster" class="poster" @click="goToGame(game.game_id)"/>
 
       <div class="info">
         <h2 class="title">{{ game.name.toUpperCase() }}</h2>
@@ -73,7 +73,10 @@ export default {
     updateFilters(newFilters) {
       console.log("Received filters:", newFilters);
       this.filters = { ...this.filters, ...newFilters };
-    }
+    },
+    goToGame(gameId) {
+      this.$router.push(`/game/${gameId}`);
+    },
   },
   mounted() {
     fetch("http://localhost:3000/api/games")
@@ -110,10 +113,16 @@ export default {
 }
 
 .poster {
+  cursor: pointer;
+  transition: transform 0.2s;
   width: 130px;
   height: 190px;
   object-fit: cover;
   border-radius: 4px;
+}
+
+.poster:hover {
+  transform: scale(1.05);
 }
 
 .info {
