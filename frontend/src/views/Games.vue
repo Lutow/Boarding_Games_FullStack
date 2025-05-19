@@ -1,47 +1,95 @@
 <template>
   <div class="games-container">
+    <Loader v-if="loading" />
+    <Filters @filtersChanged="updateFilters" />
     <div
       class="game-card"
-      v-for="game in games"
+      v-for="game in filteredGames"
       :key="game.id"
     >
-      <!-- Game Image -->
       <img :src="game.game_image" alt="Game Poster" class="poster" />
-      <!-- Game Info -->
-      <div class="info">
-        <h2 class="title">
-          {{ game.name.toUpperCase() }}
-        </h2>
 
+      <div class="info">
+        <h2 class="title">{{ game.name.toUpperCase() }}</h2>
         <p><strong>Players:</strong> {{ game.min_players }} - {{ game.max_players }}</p>
         <p><strong>Playing Time:</strong> {{ game.playingtime }} minutes</p>
-
-        <p v-if="game.description">
-          <strong>Description:</strong> {{ game.description }}
-        </p>
+        <p v-if="game.description"><strong>Description:</strong> {{ game.description }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Loader from '../components/Loader.vue';
+import Filters from '../components/filters.vue';
+
 export default {
   name: "GameList",
+  components: { Loader, Filters },
   data() {
     return {
+      loading: true,
       games: [],
+      filters: {
+        sort: "",
+        category: "all",
+        search: ""
+      }
     };
+  },
+  computed: {
+    filteredGames() {
+      let result = [...this.games];
+
+      // Search filter
+      if (this.filters.search) {
+        const searchLower = this.filters.search.toLowerCase();
+        result = result.filter(game => game.name.toLowerCase().includes(searchLower));
+      }
+
+      // Genre filter
+      if (this.filters.category && this.filters.category !== "all") {
+        result = result.filter(game => game.categories?.toLowerCase().includes(this.filters.category.toLowerCase())
+        );
+      }
+
+      // Duration filter
+      if (this.filters.duration && this.filters.duration !== "") {
+        result = result.filter(game => game.duration_level === this.filters.duration);
+      }
+
+      // Sorting by duration using the Trigger defined in the DB
+      if (this.filters.sort === "name") {
+        result.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (this.filters.sort === "duration") {
+        const durationOrder = { "Short": 1, "Medium": 2, "Long": 3 };
+        result.sort((a, b) => durationOrder[a.duration_level] - durationOrder[b.duration_level]);
+      }
+
+      return result;
+    }
+  },
+  methods: {
+    updateFilters(newFilters) {
+      console.log("Received filters:", newFilters);
+      this.filters = { ...this.filters, ...newFilters };
+    }
   },
   mounted() {
     fetch("http://localhost:3000/api/games")
-      .then((res) => res.json())
-      .then((data) => {
-        this.games = data;
+      .then(res => res.json())
+      .then(data => {
+        setTimeout(() => {
+          this.games = data;
+          this.loading = false;
+        }, 1500);
       })
-      .catch((err) => console.error("Error fetching games:", err));
-  },
+      .catch(err => console.error("Error fetching games:", err));
+  }
 };
 </script>
+
+
 
 <style scoped>
 .games-container {
